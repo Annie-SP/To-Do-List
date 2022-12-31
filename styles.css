@@ -1,0 +1,120 @@
+
+.container{
+	max-width: 600px;
+	margin: 20px auto;
+}
+
+.create-task-form {
+    background-color: #FAF8F1;
+    border-radius: 6px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-field {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    width: 95%; 
+}
+
+.task-input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    width: 95%; 
+}
+
+.task-input:focus , .btn:focus{
+    outline: none;
+}
+
+
+.filter-input{
+	margin: 0 5px;
+	padding: 10px;
+    border: 1px solid #434242;
+    border-radius: 6px;  
+    width: 95%;  
+}
+
+.task-title{
+	font-size: 24px;
+	text-align: center;
+	color: #222222;
+}
+
+.btn {
+    border: 1px solid #434242;
+    background-color: rgba(34, 163, 159, 0.85);
+    color: white;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 6px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.clear-tasks:hover , .btn:hover{
+    border: 2px solid #434242;
+    background-color:#22A39F ;
+/*    color: #ffffff;*/
+    font-size: 15px;
+    font-weight: bold;
+;
+}
+
+.filter-task-block {
+    border-radius: 6px;
+    padding: 20px;
+
+}
+
+.collection {
+    background-color: #FAF8F1;
+    margin-top: 20px;
+    border-radius: 6px;
+    padding: 20px;
+}
+
+.collection .colection-item {
+    background-color: white;
+    padding: 10px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s;
+    cursor: pointer;
+    border: 1px solid #222222;
+}
+.collection .colection-item:not(:last-child) {
+    margin-bottom: 15px;
+}
+.collection .colection-item:hover {
+    background-color: #434242;
+    color: white;
+}
+
+
+.collection .colection-item span.edit-item {
+	padding-right: 5px;
+}
+
+
+.clear-tasks {
+    width: 100%;
+    margin: auto;
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #222222;
+    background-color: rgba(34, 163, 159, 0.85);
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 6px;
+    border: 1px solid #434242;
+}
