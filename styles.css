@@ -49,7 +49,8 @@
 .btn {
     border: 1px solid #434242;
     background-color: rgba(34, 163, 159, 0.85);
-    color: white;
+    color: #222222;
+    font-weight: bold;
     padding: 10px;
     margin-top: 10px;
     border-radius: 6px;
@@ -59,12 +60,12 @@
 
 .clear-tasks:hover , .btn:hover{
     border: 2px solid #434242;
-    background-color:#22A39F ;
-/*    color: #ffffff;*/
+    background-color:#22A39F;
+    color: #FAF8F1;
     font-size: 15px;
     font-weight: bold;
-;
 }
+
 
 .filter-task-block {
     border-radius: 6px;
@@ -80,6 +81,7 @@
 }
 
 .collection .colection-item {
+	position: relative;
     background-color: white;
     padding: 10px;
     border-radius: 6px;
@@ -100,7 +102,9 @@
 
 
 .collection .colection-item span.edit-item {
-	padding-right: 5px;
+	position: absolute;
+	top: 11px;
+	right: 30px;
 }
 
 
@@ -117,4 +121,8 @@
     cursor: pointer;
     border-radius: 6px;
     border: 1px solid #434242;
+}
+
+.hide {
+  display: none
 }

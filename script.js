@@ -17,7 +17,9 @@
 //     Зробіть так, аби функціонал видалення працював коректно - 
 // тобто аби при видалені на сторінці з локалСтораджу видалявся саме той елемент який видалив юзер, а не якісь ще крім нього.
 //     Для цього можете використати кастомні атрибути 
-// ([https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset)) і/або індекс елементу і методи масивів та приведення до масивів
+// ([https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset]
+//(https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset)) 
+//і/або індекс елементу і методи масивів та приведення до масивів
     
 // 2. **Додати можливість оновлювати окреме завдання**
     
@@ -65,6 +67,7 @@ form.addEventListener('submit', createTask);
 taskList.addEventListener('click', removeTask);
 clearBtn.addEventListener('click', removeAllTasks);
 filter.addEventListener('keyup', filterItems);
+taskList.addEventListener('click', editTask);
 
 function loadTasks() {
 	// оголошуємо змінну яка буде використовуватись для списку завдань
@@ -88,27 +91,22 @@ function loadTasks() {
 		// всередині цього елементу списку створюємо текстову ноду з описом завдання
 		li.appendChild(document.createTextNode(task));
 
-		const divElement = document.createElement('div');
-		divElement.className = 'list-items';
-		li.appendChild(divElement);
-
 		const editElement = document.createElement('span');
 		editElement.className = 'edit-item';
 		editElement.innerHTML = '<i class="fa fa-edit"></i>';
-		divElement.appendChild(editElement);
+		li.appendChild(editElement);
 
 		const deleteElement = document.createElement('span');
 		deleteElement.className = 'delete-item';
 		deleteElement.innerHTML = '<i class="fa fa-remove"></i>';
-		divElement.appendChild(deleteElement);
-
-
-
+		li.appendChild(deleteElement);
 
 		// запихуємо цей елемент списку в список
 		taskList.appendChild(li);
 	})
 }
+
+
 
 
 // створити таску +
@@ -121,26 +119,22 @@ function createTask(event) {
 	}
 
 	// створюємо елемент списку
-	const li = document.createElement('li');
+	let li = document.createElement('li');
 	// додаємо йому класс
 	li.className = 'colection-item';
+	// li.addEventListener('dblclick', editTask);
 	// всередині цього елементу списку створюємо текстову ноду з описом завдання
 	li.appendChild(document.createTextNode(taskInput.value));
-
-		const divElement = document.createElement('div');
-		divElement.className = 'list-items';
-		li.appendChild(divElement);
 
 		const editElement = document.createElement('span');
 		editElement.className = 'edit-item';
 		editElement.innerHTML = '<i class="fa fa-edit"></i>';
-		divElement.appendChild(editElement);
+		li.appendChild(editElement);
 
 		const deleteElement = document.createElement('span');
 		deleteElement.className = 'delete-item';
 		deleteElement.innerHTML = '<i class="fa fa-remove"></i>';
-		divElement.appendChild(deleteElement);
-
+		li.appendChild(deleteElement);
 
 
 	// запихуємо цей елемент списку в список
@@ -177,6 +171,31 @@ function storeTaskInLocalStorage(task) {
 	localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
+
+
+// редагувати якусь конкретну таску
+function editTask(event){
+	console.log("Edit Task...");
+	// let li = document.createElement('li');
+	let iconEditContainter = event.target.parentElement;
+
+	 if(iconEditContainter.classList.contains('edit-item') ) {
+  		const item = iconEditContainter.parentElement;
+  		console.log(item);
+  		item.setAttribute('contenteditable', true);
+		document.onkeypress = function(event) {
+  			if (event.key == 'Enter') {
+  				event.preventDefault();
+				item.removeAttribute('contenteditable');
+				console.log(item);	
+    		}		
+		editTaskFromLocalStorage(item.textContent);
+    	}
+    }
+}
+
+
+
 // видалити якусь конкретну таску
 function removeTask(event) {
 	let iconContainter = event.target.parentElement;
@@ -185,14 +204,93 @@ function removeTask(event) {
 		// пересвідчемось чи юзер справді хоче видалити цей елемент
 		if(confirm('Ви впевнені що хочете видали саме це завдання?')){
 			// видаляємо цей елемент списку, в якому знаходиться хрестик
+			//deleteElement.parentElement.remove();
 			iconContainter.parentElement.remove();
-			iconContainter.parentElement.remove();
+
 			// викликаємо функцію яка буде видаляти завдання з ЛокалСтораджа
 			removeTaskFromLocalStorage(iconContainter.parentElement);
 		}
 	}
 }
 
+// також індекс елементу і методи масивів та приведення до масивів
+
+function editTaskFromLocalStorage(task) {
+	// оголошуємо змінну яка буде використовуватись для списку завдань
+	let tasks;
+
+	// перевіряємо чи є у ЛокалСтораджі вже які данні завдань
+	if(localStorage.getItem('tasks') !== null) {
+		// якщо вони там є - витягуємо їх і присвоюємо змінній
+		tasks = JSON.parse(localStorage.getItem('tasks'));
+	} else {
+		// якщо їх там нема - присвоюємо змінній значення порожнього масиву
+		tasks = [];
+	}
+
+		if (task === null){
+			 		task.join(' ').split(' ');
+			 	}
+			 	console.log(task);
+
+		for (let i = 0; i < tasks.length; i++) {
+			 if(tasks[i] === task) {
+			 	
+				tasks.splice(i, 1, tasks);
+				console.log(tasks);
+			}
+		}
+		console.log(tasks);
+		localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+
+
+
+// function editTaskFromLocalStorage(task) {
+// 	// оголошуємо змінну яка буде використовуватись для списку завдань
+// 	let tasks;
+
+// 	// перевіряємо чи є у ЛокалСтораджі вже які данні завдань
+// 	if(localStorage.getItem('tasks') !== null) {
+// 		// якщо вони там є - витягуємо їх і присвоюємо змінній
+// 		tasks = JSON.parse(localStorage.getItem('tasks'));
+// 	} else {
+// 		// якщо їх там нема - присвоюємо змінній значення порожнього масиву
+// 		tasks = [];
+// 	}
+// 		// for (let index = 0; index < tasks.length; index ++){
+// 		// 	if(tasks[index] === item) {
+// 		// 		console.log(tasks[index] );
+// 		// 		tasks.splice(index, 1, item.value);
+// 		// 		console.log(tasks);
+// 		// 	}
+// 		// }
+// 		tasks.forEach(function(tasks, task) {
+// 			// index = tasks.indexOf(task);
+// 			// console.log(index);
+// 			// if(tasks[index] === item) {
+// 			// 	console.log(tasks[index] );
+// 			// 	tasks.splice(index, 1, item);
+// 			// 	console.log(tasks);
+// 			// }
+// 			if (tasks.indexOf(task) === -1){
+// 				tasks.push(task);
+// 				console.log(tasks);
+
+// 				}else {
+// 					console.log(tasks);
+
+// 				}
+// 				localStorage.setItem('tasks', JSON.stringify(task));
+
+// 		})
+// 		console.log(tasks);
+// }
+
+
+
+//видалити завдання
 function removeTaskFromLocalStorage(taskItemAsHTMLElement) {
 	// оголошуємо змінну яка буде використовуватись для списку завдань
 	let tasks;
@@ -206,14 +304,62 @@ function removeTaskFromLocalStorage(taskItemAsHTMLElement) {
 		tasks = [];
 	}
 
-	tasks.forEach(function(task, index) {
-		if(taskItemAsHTMLElement.textContent === task) {
+		// for (let i = 0; i < tasks.length; i++) {
+		// 	 if(tasks[i] === task.textContent) {
+		// 		console.log(tasks[i]);
+		// 		// tasks.join(',');
+		// 		console.log(tasks);
+
+		// 		tasks.splice(i, 1);
+		// 		//tasks.split(',');
+		// 		console.log(tasks);
+		// 	}
+		// }
+
+	// let initials = tasks.map( 
+	// wholeTasks => { 
+	// 	return wholeTasks.map((task) => task[0] + `.`).join('')
+	// });
+
+
+		//tasks = tasks.join(' ').split(' ');
+
+	tasks.forEach(function(task) {
+		let index = tasks.indexOf(task);
+		if(taskItemAsHTMLElement[index] === task ) {			
 			tasks.splice(index, 1);
 		}
 	})
 
-	localStorage.setItem('tasks', JSON.stringify(tasks));
+
+		console.log(tasks);
+		localStorage.setItem('tasks', JSON.stringify(tasks));
 }
+
+
+
+// function removeTaskFromLocalStorage(taskItemAsHTMLElement) {
+// 	// оголошуємо змінну яка буде використовуватись для списку завдань
+// 	let tasks;
+
+// 	// перевіряємо чи є у ЛокалСтораджі вже які данні завдань
+// 	if(localStorage.getItem('tasks') !== null) {
+// 		// якщо вони там є - витягуємо їх і присвоюємо змінній
+// 		tasks = JSON.parse(localStorage.getItem('tasks'));
+// 	} else {
+// 		// якщо їх там нема - присвоюємо змінній значення порожнього масиву
+// 		tasks = [];
+// 	}
+
+// 	tasks.forEach(function(task) {
+// 		let index = tasks.indexOf(task);
+// 		if(taskItemAsHTMLElement.textContent === task || taskItemAsHTMLElement.textContent === null) {			
+// 			tasks.splice(index, 1);
+// 		}
+// 	})
+// 	console.log(tasks);
+// 	localStorage.setItem('tasks', JSON.stringify(tasks));
+// }
 
 
 // видалити всі таски
