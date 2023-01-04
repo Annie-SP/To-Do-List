@@ -227,7 +227,6 @@ function editTaskFromLocalStorage(task) {
 		// якщо їх там нема - присвоюємо змінній значення порожнього масиву
 		tasks = [];
 	}
-
 	
 
 		for (let i = 0; i < tasks.length; i++) {
@@ -236,8 +235,8 @@ function editTaskFromLocalStorage(task) {
 			 		task[i].join(' ').split(' ');
 			 	}
 			 	console.log(task);
-				tasks.splice(i, 1, tasks);
-				console.log(tasks);
+				tasks.splice(i, 1, task);
+				console.log(tasks.splice(i, 1, task));
 			}
 		}
 		console.log(tasks);
