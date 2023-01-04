@@ -228,14 +228,14 @@ function editTaskFromLocalStorage(task) {
 		tasks = [];
 	}
 
-		if (task === null){
-			 		task.join(' ').split(' ');
-			 	}
-			 	console.log(task);
+	
 
 		for (let i = 0; i < tasks.length; i++) {
 			 if(tasks[i] === task) {
-			 	
+			 		if (tasks[i] === null){
+			 		task[i].join(' ').split(' ');
+			 	}
+			 	console.log(task);
 				tasks.splice(i, 1, tasks);
 				console.log(tasks);
 			}
@@ -303,36 +303,22 @@ function removeTaskFromLocalStorage(taskItemAsHTMLElement) {
 		// якщо їх там нема - присвоюємо змінній значення порожнього масиву
 		tasks = [];
 	}
-
-		// for (let i = 0; i < tasks.length; i++) {
-		// 	 if(tasks[i] === task.textContent) {
-		// 		console.log(tasks[i]);
-		// 		// tasks.join(',');
-		// 		console.log(tasks);
-
-		// 		tasks.splice(i, 1);
-		// 		//tasks.split(',');
-		// 		console.log(tasks);
-		// 	}
-		// }
-
-	// let initials = tasks.map( 
-	// wholeTasks => { 
-	// 	return wholeTasks.map((task) => task[0] + `.`).join('')
-	// });
-
-
-		//tasks = tasks.join(' ').split(' ');
+console.log('all tasks now',tasks);
 
 	tasks.forEach(function(task) {
-		let index = tasks.indexOf(task);
-		if(taskItemAsHTMLElement[index] === task ) {			
-			tasks.splice(index, 1);
+		// if(taskItemAsHTMLElement.textContent === task) 
+		if(taskItemAsHTMLElement.textContent === task){
+			//let i = tasks.length;
+			for (let i = 0; i < tasks.length; i++) {			
+			tasks.splice(i, 1);
+			console.log('tasks after splice',tasks);
+			break;
 		}
-	})
 
+	}
+})
 
-		console.log(tasks);
+		console.log('tasks after all work',tasks);
 		localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
